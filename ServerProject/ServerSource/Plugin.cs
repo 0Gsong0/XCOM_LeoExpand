@@ -1,4 +1,4 @@
-﻿namespace MyModName
+﻿namespace XCOM_LeoExpand
 {
     public partial class Plugin : IAssemblyPlugin
     {

@@ -1,4 +1,6 @@
-﻿namespace MyModName
+﻿using HarmonyLib;
+
+namespace XCOM_LeoExpand
 {
     public partial class Plugin : IAssemblyPlugin
     {
@@ -6,14 +8,18 @@
         public IConfigService ConfigService { get; set; }
         public IPluginManagementService PluginService { get; set; }
         public ILoggerService LoggerService { get; set; }
-        
+        public static Harmony? harmony;
+        partial void InitializeClient(Harmony harmony);
         public void Initialize()
         {
             // When your plugin is loading, use this instead of the constructor for code relying on
             // the services above.
             
             // Put any code here that does not rely on other plugins.
-            LoggerService.Log($"MyModName Plugin Initialized. Welcome to modding!");
+            LoggerService.Log($"XCOM_LeoExpand Plugin Initialized.");
+            harmony = new Harmony("XCOM_LeoExpand_harmonyPath");
+            InitializeClient(harmony);
+            TLCharacterControlSystem.Init(harmony);
         }
 
         public void OnLoadCompleted()
@@ -29,8 +35,11 @@
 
         public void Dispose()
         {
-            // Cleanup your plugin!
-            throw new NotImplementedException();
+            if (harmony != null)
+            {
+                harmony.UnpatchSelf();
+                harmony = null;
+            }
         }
     }
 }

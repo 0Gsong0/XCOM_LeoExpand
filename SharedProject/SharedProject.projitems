@@ -9,6 +9,8 @@
     <Import_RootNamespace>SharedProject</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)SharedSource\AIControl\TLCharacterControlState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SharedSource\AIControl\TLCharacterControlSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SharedSource\AssemblySettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SharedSource\Plugin.cs" />
   </ItemGroup>
