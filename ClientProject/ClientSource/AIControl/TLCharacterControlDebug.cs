@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XCOM_LeoExpand
+namespace TeraDeepOcean
 {
     public static class TLCharacterControlDebug
     {
@@ -17,7 +17,7 @@ namespace XCOM_LeoExpand
                 typeof(SpriteBatch),
                 typeof(Camera),
             });
-            if (drawFront != null)
+            if (drawFront != null && Screen.Selected is SubEditorScreen)
             {
                 harmony.Patch(drawFront, postfix: new HarmonyMethod(typeof(TLCharacterControlDebug),nameof(OnCharacterDrawFront)));
             }

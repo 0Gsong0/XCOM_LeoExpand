@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace XCOM_LeoExpand
+namespace TeraDeepOcean
 {
     public enum TLCharacterAiMode
     {
@@ -36,6 +36,12 @@ namespace XCOM_LeoExpand
         /// Guard 模式允许离开锚点的距离，显示单位。
         /// </summary>
         public float GuardRadius { get; set; } = 100.0f;
+
+        /// <summary>
+        /// 移动计时器
+        /// </summary>
+        [JsonIgnore]
+        public float MoveToElapsedTime { get; set; }
 
         /// <summary>
         /// 创建时还在等待角色进入某个 Hull。
