@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TeraDeepOcean
+namespace XCOM_LeoExpand
 {
     public static class TLCharacterControlDebug
     {

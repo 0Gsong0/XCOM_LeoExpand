@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace TeraDeepOcean
+namespace XCOM_LeoExpand
 {
     public static class TLCharacterControlSystem
     {
