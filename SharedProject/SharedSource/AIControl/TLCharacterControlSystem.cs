@@ -350,9 +350,6 @@ namespace XCOM_LeoExpand
 
             if (unoccupiedPositions.Count == 0) return false;
 
-            //尚有空闲点：只在空闲点中随机。
-            //全部占用：退回所有点中随机，允许重复。
-
             WayPoint? selected = unoccupiedPositions.GetRandomUnsynced();
             state.TargetSubId = character.Submarine.ID;
             state.TargetLocalPosition = selected.Position;
