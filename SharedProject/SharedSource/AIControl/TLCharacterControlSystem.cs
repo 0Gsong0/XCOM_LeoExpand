@@ -21,6 +21,8 @@ namespace XCOM_LeoExpand
         private static readonly Dictionary<Identifier, TLCharacterAiMode> autoControlledCharacters = new()
         {
             ["Tmr-01驮兽".ToIdentifier()] = TLCharacterAiMode.Guard,
+            ["XCOM_Muton".ToIdentifier()] = TLCharacterAiMode.Guard,
+            ["XCOM_Thinman".ToIdentifier()] = TLCharacterAiMode.Guard,
         };
         public static void Init(Harmony harmony)
         {
@@ -300,7 +302,20 @@ namespace XCOM_LeoExpand
             {
                 return;
             }
+            DebugConsole.NewMessage(
+               $"[TL AI 接管] {character.Name} " +
+               "附近没有空闲防守点，归还原版 AI。",
+               Color.Orange);
+            ReturnToVanilla(character, state);
+        }
+        private static void ReturnToVanilla(Character character,TLCharacterControlState state)
+        {
             state.Mode = TLCharacterAiMode.Vanilla;
+            state.TargetSubId = character.Submarine?.ID ?? Entity.NullEntityID;
+            state.TargetLocalPosition = Vector2.Zero;
+            state.GuardWaypointId = Entity.NullEntityID;
+            state.MoveToElapsedTime = 0.0f;
+            state.WaitingForInteriorAnchor = false;
         }
         private static List<WayPoint> FindGuardPositions(Character character)
         {
@@ -333,17 +348,17 @@ namespace XCOM_LeoExpand
             List<WayPoint> unoccupiedPositions = guardPositions.Where(wayPoint =>
                 !IsGuardPositionOccupied(wayPoint, character.ID)).ToList();
 
+            if (unoccupiedPositions.Count == 0) return false;
+
             //尚有空闲点：只在空闲点中随机。
             //全部占用：退回所有点中随机，允许重复。
-            List<WayPoint> selectionPool = unoccupiedPositions.Count > 0 ? unoccupiedPositions : guardPositions;
 
-            WayPoint? selected = selectionPool.GetRandomUnsynced();
+            WayPoint? selected = unoccupiedPositions.GetRandomUnsynced();
             state.TargetSubId = character.Submarine.ID;
             state.TargetLocalPosition = selected.Position;
             state.GuardWaypointId = selected.ID;
             state.MoveToElapsedTime = 0.0f;
             state.WaitingForInteriorAnchor = false;
-   
 
             float distanceSquared = Vector2.DistanceSquared(character.WorldPosition, selected.WorldPosition);
             if(state.Mode == TLCharacterAiMode.Guard)
